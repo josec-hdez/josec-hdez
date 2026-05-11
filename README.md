@@ -7,7 +7,7 @@
   <i>Senior Software Engineer · Clean Architecture advocate · Builder of solid foundations</i>
   <br>
   <img src="https://cdn.countryflags.com/thumbs/cuba/flag-3d-250.png" height="18" />
-  &nbsp;Cuba &nbsp;·&nbsp; 🏗️ <a href="https://treew.com">Treew</a> &nbsp;·&nbsp; 🚀 Co-Founder &amp; CTO @ <a href="https://dara-services.com">Dara's Services</a>
+  &nbsp;Cuba &nbsp;·&nbsp; 🏗️ <a href="https://www.linkedin.com/company/treew/">Treew</a> &nbsp;·&nbsp; 🚀 Co-Founder &amp; CTO @ <a href="https://dara-services.com">Dara's Services</a>
 </p>
 
 <p align="center">
