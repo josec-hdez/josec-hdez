@@ -149,15 +149,6 @@ Apasionado por la **mentoría**, los **patrones de diseño** y la **programació
 </p>
 
 <p align="center">
-  <img height="175" src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=josec-hdez&theme=github_dark" />
-  <img height="175" src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=josec-hdez&theme=github_dark&utcOffset=-5" />
-</p>
-
-<p align="center">
-  <img src="https://streak-stats.demolab.com/?user=josec-hdez&hide_border=true&background=0d1117&stroke=8b5cf6&ring=8b5cf6&fire=8b5cf6&currStreakNum=e6edf3&currStreakLabel=8b5cf6&sideNums=e6edf3&sideLabels=8b5cf6&dates=e6edf3" />
-</p>
-
-<p align="center">
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=josec-hdez&theme=react-dark&hide_border=true&area=true&color=8b5cf6&line=8b5cf6&point=e6edf3&bg_color=0d1117" />
 </p>
 

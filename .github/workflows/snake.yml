@@ -41,9 +41,6 @@ jobs:
           TOTAL_CAL=$(jq -r '.data.user.contributionsCollection.contributionCalendar.totalContributions' stats.json)
           RESTRICTED=$(jq -r '.data.user.contributionsCollection.restrictedContributionsCount' stats.json)
           COMMITS=$(jq -r '.data.user.contributionsCollection.totalCommitContributions' stats.json)
-          PRS=$(jq -r '.data.user.contributionsCollection.totalPullRequestContributions' stats.json)
-          ISSUES=$(jq -r '.data.user.contributionsCollection.totalIssueContributions' stats.json)
-          REVIEWS=$(jq -r '.data.user.contributionsCollection.totalPullRequestReviewContributions' stats.json)
 
           if [ "$TOTAL_CAL" -gt "$RESTRICTED" ]; then
             TRUE_TOTAL=$TOTAL_CAL
@@ -55,9 +52,6 @@ jobs:
             echo "TRUE_TOTAL=$TRUE_TOTAL"
             echo "RESTRICTED=$RESTRICTED"
             echo "COMMITS=$COMMITS"
-            echo "PRS=$PRS"
-            echo "ISSUES=$ISSUES"
-            echo "REVIEWS=$REVIEWS"
             echo "UPDATED=$(date -u '+%Y-%m-%d')"
           } >> $GITHUB_ENV
 
@@ -80,29 +74,19 @@ jobs:
             <text class="subtitle" x="24" y="52">Including private contributions · last 365 days</text>
             <line class="divider" x1="24" y1="70" x2="776" y2="70"/>
 
-            <g transform="translate(40, 130)">
+            <g transform="translate(80, 130)">
               <text class="number" x="0" y="0">${TRUE_TOTAL}</text>
               <text class="label" x="0" y="22">Total Contributions</text>
             </g>
 
-            <g transform="translate(220, 130)">
+            <g transform="translate(330, 130)">
               <text class="number" x="0" y="0">${RESTRICTED}</text>
               <text class="label" x="0" y="22">Private (anonymized)</text>
             </g>
 
-            <g transform="translate(400, 130)">
+            <g transform="translate(580, 130)">
               <text class="number" x="0" y="0">${COMMITS}</text>
               <text class="label" x="0" y="22">Public Commits</text>
-            </g>
-
-            <g transform="translate(540, 130)">
-              <text class="number" x="0" y="0">${PRS}</text>
-              <text class="label" x="0" y="22">Pull Requests</text>
-            </g>
-
-            <g transform="translate(680, 130)">
-              <text class="number" x="0" y="0">${REVIEWS}</text>
-              <text class="label" x="0" y="22">Reviews</text>
             </g>
 
             <text class="footer" x="24" y="200">Updated: ${UPDATED} UTC · Auto-generated daily from GraphQL</text>
