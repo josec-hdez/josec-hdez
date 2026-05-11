@@ -145,6 +145,10 @@ Apasionado por la **mentoría**, los **patrones de diseño** y la **programació
 ### 📊 GitHub Stats
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/josec-hdez/josec-hdez/output/stats.svg" alt="Real GitHub activity including private contributions" />
+</p>
+
+<p align="center">
   <img height="175" src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=josec-hdez&theme=github_dark" />
   <img height="175" src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=josec-hdez&theme=github_dark&utcOffset=-5" />
 </p>

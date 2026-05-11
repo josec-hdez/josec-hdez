@@ -1,28 +1,122 @@
-name: Generate Snake
+name: Update README Assets
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
-  generate:
+  update:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Generate snake animation
         uses: Platane/snk@v3
-        id: snake-gif
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
             dist/github-contribution-grid-snake.gif?color_snake=orange&color_dots=#bfd6f6,#8dbdff,#64a1f4,#4b91f1,#3c7dd9
+
+      - name: Fetch real stats from GitHub GraphQL
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+        run: |
+          gh api graphql -f query='
+            query($login: String!) {
+              user(login: $login) {
+                contributionsCollection {
+                  contributionCalendar { totalContributions }
+                  restrictedContributionsCount
+                  totalCommitContributions
+                  totalPullRequestContributions
+                  totalIssueContributions
+                  totalPullRequestReviewContributions
+                }
+                repositories(privacy: PUBLIC) { totalCount }
+                followers { totalCount }
+              }
+            }' -F login=$USERNAME > stats.json
+
+          echo "=== Raw GraphQL response ==="
+          cat stats.json
+
+          TOTAL_CAL=$(jq -r '.data.user.contributionsCollection.contributionCalendar.totalContributions' stats.json)
+          RESTRICTED=$(jq -r '.data.user.contributionsCollection.restrictedContributionsCount' stats.json)
+          COMMITS=$(jq -r '.data.user.contributionsCollection.totalCommitContributions' stats.json)
+          PRS=$(jq -r '.data.user.contributionsCollection.totalPullRequestContributions' stats.json)
+          ISSUES=$(jq -r '.data.user.contributionsCollection.totalIssueContributions' stats.json)
+          REVIEWS=$(jq -r '.data.user.contributionsCollection.totalPullRequestReviewContributions' stats.json)
+
+          if [ "$TOTAL_CAL" -gt "$RESTRICTED" ]; then
+            TRUE_TOTAL=$TOTAL_CAL
+          else
+            TRUE_TOTAL=$((TOTAL_CAL + RESTRICTED))
+          fi
+
+          {
+            echo "TRUE_TOTAL=$TRUE_TOTAL"
+            echo "RESTRICTED=$RESTRICTED"
+            echo "COMMITS=$COMMITS"
+            echo "PRS=$PRS"
+            echo "ISSUES=$ISSUES"
+            echo "REVIEWS=$REVIEWS"
+            echo "UPDATED=$(date -u '+%Y-%m-%d')"
+          } >> $GITHUB_ENV
+
+      - name: Generate stats SVG
+        run: |
+          mkdir -p dist
+          cat > dist/stats.svg <<EOF
+          <svg xmlns="http://www.w3.org/2000/svg" width="800" height="220" viewBox="0 0 800 220">
+            <style>
+              .title { fill: #8b5cf6; font: 600 16px -apple-system, 'Segoe UI', sans-serif; }
+              .subtitle { fill: #8b949e; font: 400 11px -apple-system, 'Segoe UI', sans-serif; }
+              .number { fill: #e6edf3; font: 700 28px -apple-system, 'Segoe UI', sans-serif; }
+              .label { fill: #8b949e; font: 500 11px -apple-system, 'Segoe UI', sans-serif; }
+              .footer { fill: #6e7681; font: 400 10px -apple-system, 'Segoe UI', sans-serif; }
+              .bg { fill: #0d1117; stroke: #30363d; stroke-width: 1; }
+              .divider { stroke: #30363d; stroke-width: 1; }
+            </style>
+            <rect class="bg" x="0.5" y="0.5" width="799" height="219" rx="8"/>
+            <text class="title" x="24" y="34">⚡ Real GitHub Activity</text>
+            <text class="subtitle" x="24" y="52">Including private contributions · last 365 days</text>
+            <line class="divider" x1="24" y1="70" x2="776" y2="70"/>
+
+            <g transform="translate(40, 130)">
+              <text class="number" x="0" y="0">${TRUE_TOTAL}</text>
+              <text class="label" x="0" y="22">Total Contributions</text>
+            </g>
+
+            <g transform="translate(220, 130)">
+              <text class="number" x="0" y="0">${RESTRICTED}</text>
+              <text class="label" x="0" y="22">Private (anonymized)</text>
+            </g>
+
+            <g transform="translate(400, 130)">
+              <text class="number" x="0" y="0">${COMMITS}</text>
+              <text class="label" x="0" y="22">Public Commits</text>
+            </g>
+
+            <g transform="translate(540, 130)">
+              <text class="number" x="0" y="0">${PRS}</text>
+              <text class="label" x="0" y="22">Pull Requests</text>
+            </g>
+
+            <g transform="translate(680, 130)">
+              <text class="number" x="0" y="0">${REVIEWS}</text>
+              <text class="label" x="0" y="22">Reviews</text>
+            </g>
+
+            <text class="footer" x="24" y="200">Updated: ${UPDATED} UTC · Auto-generated daily from GraphQL</text>
+          </svg>
+          EOF
 
       - name: Push to output branch
         uses: crazy-max/ghaction-github-pages@v4
