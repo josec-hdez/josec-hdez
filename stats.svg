@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="220" viewBox="0 0 800 220">
+  <style>
+    .title { fill: #8b5cf6; font: 600 16px -apple-system, 'Segoe UI', sans-serif; }
+    .subtitle { fill: #8b949e; font: 400 11px -apple-system, 'Segoe UI', sans-serif; }
+    .number { fill: #e6edf3; font: 700 28px -apple-system, 'Segoe UI', sans-serif; }
+    .label { fill: #8b949e; font: 500 11px -apple-system, 'Segoe UI', sans-serif; }
+    .footer { fill: #6e7681; font: 400 10px -apple-system, 'Segoe UI', sans-serif; }
+    .bg { fill: #0d1117; stroke: #30363d; stroke-width: 1; }
+    .divider { stroke: #30363d; stroke-width: 1; }
+  </style>
+  <rect class="bg" x="0.5" y="0.5" width="799" height="219" rx="8"/>
+  <text class="title" x="24" y="34">⚡ Real GitHub Activity</text>
+  <text class="subtitle" x="24" y="52">Including private contributions · last 365 days</text>
+  <line class="divider" x1="24" y1="70" x2="776" y2="70"/>
+
+  <g transform="translate(80, 130)">
+    <text class="number" x="0" y="0">4683</text>
+    <text class="label" x="0" y="22">Total Contributions</text>
+  </g>
+
+  <g transform="translate(330, 130)">
+    <text class="number" x="0" y="0">4006</text>
+    <text class="label" x="0" y="22">Private (anonymized)</text>
+  </g>
+
+  <g transform="translate(580, 130)">
+    <text class="number" x="0" y="0">473</text>
+    <text class="label" x="0" y="22">Public Commits</text>
+  </g>
+
+  <text class="footer" x="24" y="200">Updated: 2026-09-08 UTC · Auto-generated daily from GraphQL</text>
+</svg>
